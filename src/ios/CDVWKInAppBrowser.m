@@ -35,7 +35,7 @@
 #define    IAB_BRIDGE_NAME @"cordova_iab"
 
 #define    TOOLBAR_HEIGHT 44.0
-#define    STATUSBAR_HEIGHT 0
+#define    STATUSBAR_HEIGHT 20.0
 #define    LOCATIONBAR_HEIGHT 21.0
 #define    FOOTER_HEIGHT ((TOOLBAR_HEIGHT) + (LOCATIONBAR_HEIGHT))
 
@@ -1099,22 +1099,22 @@ BOOL isExiting = FALSE;
     if (IsAtLeastiOSVersion(@"7.0") && !viewRenderedAtLeastOnce) {
         viewRenderedAtLeastOnce = TRUE;
         CGRect viewBounds = [self.webView bounds];
-        // viewBounds.origin.y = STATUSBAR_HEIGHT;
-        // viewBounds.size.height = viewBounds.size.height - STATUSBAR_HEIGHT;
+        viewBounds.origin.y = 0;
+        viewBounds.size.height = 0;
 
-        bool hasTopNotch = NO;
+        // bool hasTopNotch = NO;
 
-        if (@available(iOS 11.0, *)) {
-            hasTopNotch = [[[UIApplication sharedApplication] delegate] window].safeAreaInsets.top > 20.0;
-        }
+        // if (@available(iOS 11.0, *)) {
+        //     hasTopNotch = [[[UIApplication sharedApplication] delegate] window].safeAreaInsets.top > 20.0;
+        // }
 
-        if(hasTopNotch){
-            viewBounds.origin.y = [UIApplication sharedApplication].statusBarFrame.size.height;
-            viewBounds.size.height = viewBounds.size.height - [UIApplication sharedApplication].statusBarFrame.size.height;
-        } else {
-            viewBounds.origin.y = STATUSBAR_HEIGHT;
-            viewBounds.size.height = viewBounds.size.height - STATUSBAR_HEIGHT;
-        }
+        // if(hasTopNotch){
+        //     viewBounds.origin.y = [UIApplication sharedApplication].statusBarFrame.size.height;
+        //     viewBounds.size.height = viewBounds.size.height - [UIApplication sharedApplication].statusBarFrame.size.height;
+        // } else {
+        //     viewBounds.origin.y = STATUSBAR_HEIGHT;
+        //     viewBounds.size.height = viewBounds.size.height - STATUSBAR_HEIGHT;
+        // }
 
         self.webView.frame = viewBounds;
         [[UIApplication sharedApplication] setStatusBarStyle:[self preferredStatusBarStyle]];
