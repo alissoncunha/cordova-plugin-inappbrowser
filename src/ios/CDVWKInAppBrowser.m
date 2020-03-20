@@ -1100,7 +1100,7 @@ BOOL isExiting = FALSE;
         viewRenderedAtLeastOnce = TRUE;
         CGRect viewBounds = [self.webView bounds];
         viewBounds.origin.y = 0;
-        viewBounds.size.height = 0;
+        viewBounds.size.height = viewBounds.size.height;
 
         // bool hasTopNotch = NO;
 
