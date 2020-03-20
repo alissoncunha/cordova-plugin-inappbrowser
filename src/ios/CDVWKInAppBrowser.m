@@ -764,7 +764,7 @@ BOOL isExiting = FALSE;
     
     self.webView.navigationDelegate = self;
     self.webView.UIDelegate = self.webViewUIDelegate;
-    self.webView.backgroundColor = [UIColor whiteColor];
+    self.webView.backgroundColor = [UIColor colorWithRed:33.0/255.0 green:150.0/255.0 blue:243.0/255.0 alpha:1];
     if ([self settingForKey:@"OverrideUserAgent"] != nil) {
         self.webView.customUserAgent = [self settingForKey:@"OverrideUserAgent"];
     }
@@ -892,7 +892,7 @@ BOOL isExiting = FALSE;
         [self.toolbar setItems:@[self.closeButton, flexibleSpaceButton, self.backButton, fixedSpaceButton, self.forwardButton]];
     }
     
-    self.view.backgroundColor = [UIColor grayColor];
+    self.view.backgroundColor = [UIColor colorWithRed:33.0/255.0 green:150.0/255.0 blue:243.0/255.0 alpha:1];
     [self.view addSubview:self.toolbar];
     [self.view addSubview:self.addressLabel];
     [self.view addSubview:self.spinner];
@@ -1098,8 +1098,23 @@ BOOL isExiting = FALSE;
     if (IsAtLeastiOSVersion(@"7.0") && !viewRenderedAtLeastOnce) {
         viewRenderedAtLeastOnce = TRUE;
         CGRect viewBounds = [self.webView bounds];
-        viewBounds.origin.y = STATUSBAR_HEIGHT;
-        viewBounds.size.height = viewBounds.size.height - STATUSBAR_HEIGHT;
+        // viewBounds.origin.y = STATUSBAR_HEIGHT;
+        // viewBounds.size.height = viewBounds.size.height - STATUSBAR_HEIGHT;
+
+        bool hasTopNotch = NO;
+
+        if (@available(iOS 11.0, *)) {
+            hasTopNotch = [[[UIApplication sharedApplication] delegate] window].safeAreaInsets.top > 20.0;
+        }
+
+        if(hasTopNotch){
+            viewBounds.origin.y = [UIApplication sharedApplication].statusBarFrame.size.height;
+            viewBounds.size.height = viewBounds.size.height - [UIApplication sharedApplication].statusBarFrame.size.height;
+        } else {
+            viewBounds.origin.y = STATUSBAR_HEIGHT;
+            viewBounds.size.height = viewBounds.size.height - STATUSBAR_HEIGHT;
+        }
+
         self.webView.frame = viewBounds;
         [[UIApplication sharedApplication] setStatusBarStyle:[self preferredStatusBarStyle]];
     }
